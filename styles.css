@@ -1,0 +1,628 @@
+:root {
+  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-surface: #ffffff;
+  --bg-muted: #f1f5f9;
+  --bg-subtle: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --swiss-red: #d8232a;
+  --swiss-red-hover: #b91c22;
+  --zvv-blue: #0055a5;
+  --zvv-blue-hover: #004182;
+  --accent-train: #d8232a;
+  --accent-tram: #0284c7;
+  --accent-bus: #d97706;
+  --accent-other: #0d9488;
+  --border-color: rgba(148, 163, 184, 0.35);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.14);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.22);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: #e2e8f0;
+  user-select: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   1. Mapa a pantalla completa (100vw x 100vh)
+   ========================================================================== */
+.map-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   2. HUD Superior Flotante (Buscador, Filtros y Estado)
+   ========================================================================== */
+.floating-hud {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: max(12px, env(safe-area-inset-left));
+  z-index: 1000;
+  width: min(430px, calc(100vw - 24px));
+  pointer-events: none;
+}
+
+.hud-card {
+  pointer-events: auto;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.hud-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--swiss-red);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.brand h1 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.subtitle {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.28rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-muted);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  max-width: 185px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-pill.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+/* Formulario de búsqueda táctil */
+.search-form {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.search-form input {
+  flex: 1;
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-form input:focus {
+  border-color: var(--zvv-blue);
+  box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.16);
+}
+
+.btn-search {
+  min-height: 44px;
+  padding: 0 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--swiss-red);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-search:hover {
+  background: var(--swiss-red-hover);
+}
+
+.btn-search:active {
+  transform: scale(0.98);
+}
+
+/* Barra de filtros optimizada para scroll táctil */
+.filter-bar {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  min-height: 36px;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.15s ease;
+}
+
+.chip:hover {
+  background: var(--bg-muted);
+}
+
+.chip.active {
+  background: var(--text-primary);
+  color: #ffffff;
+  border-color: var(--text-primary);
+}
+
+/* ==========================================================================
+   3. Botón Flotante Superpuesto: "Centrar en mi ubicación"
+   ========================================================================== */
+.floating-locate-btn {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(28px, calc(env(safe-area-inset-bottom) + 16px));
+  z-index: 1000;
+  min-height: 50px;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  background: var(--zvv-blue);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: var(--shadow-lg);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.floating-locate-btn:hover {
+  background: var(--zvv-blue-hover);
+  transform: translateY(-2px);
+}
+
+.floating-locate-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.floating-locate-btn.is-following {
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.28), var(--shadow-lg);
+}
+
+.locate-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   4.Marcadores Personalizados en Leaflet (Tren, Tranvía, Bus y Usuario)
+   ========================================================================== */
+.custom-div-icon {
+  background: transparent;
+  border: none;
+}
+
+.custom-marker-pin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50% 50% 50% 4px;
+  transform: rotate(-45deg);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.35);
+  color: #ffffff;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.custom-marker-pin:hover {
+  transform: rotate(-45deg) scale(1.14);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.45);
+}
+
+.custom-marker-pin .marker-inner {
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.custom-marker-pin.train { background: var(--accent-train); }
+.custom-marker-pin.tram { background: var(--accent-tram); }
+.custom-marker-pin.bus { background: var(--accent-bus); }
+.custom-marker-pin.other { background: var(--accent-other); }
+
+/* Marcador de ubicación en tiempo real del usuario (punto azul parpadeante) */
+.user-location-wrapper {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-location-dot {
+  width: 15px;
+  height: 15px;
+  background-color: #2563eb;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.7);
+  z-index: 2;
+}
+
+.user-location-pulse {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: rgba(37, 99, 235, 0.45);
+  z-index: 1;
+  animation: gps-pulse 2s infinite ease-out;
+}
+
+@keyframes gps-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   5. Popups de Leaflet y Leyenda
+   ========================================================================== */
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.popup-content {
+  min-width: 200px;
+}
+
+.popup-content h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+
+.popup-content p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0.2rem 0;
+}
+
+.popup-btn {
+  margin-top: 0.55rem;
+  width: 100%;
+  min-height: 40px;
+  padding: 0.45rem 0.75rem;
+  background: var(--zvv-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.popup-btn:hover {
+  background: var(--zvv-blue-hover);
+}
+
+/* Leyenda flotante en el mapa */
+.map-legend {
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+}
+
+.map-legend-title {
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 500;
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.legend-swatch.train { background: var(--accent-train); }
+.legend-swatch.tram { background: var(--accent-tram); }
+.legend-swatch.bus { background: var(--accent-bus); }
+.legend-swatch.user { background: #2563eb; }
+
+/* Botones de zoom de Leaflet más grandes para pantallas táctiles */
+.leaflet-touch .leaflet-control-zoom a {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 18px;
+}
+
+/* ==========================================================================
+   6. Panel Flotante de Próximas Salidas (Stationboard Drawer)
+   ========================================================================== */
+.stationboard-drawer {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 1001;
+  width: min(390px, calc(100vw - 24px));
+  max-height: 44dvh;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.stationboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.stationboard-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--swiss-red);
+  font-weight: 700;
+}
+
+.stationboard-header h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.btn-icon {
+  min-width: 40px;
+  min-height: 40px;
+  background: transparent;
+  border: none;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.btn-icon:hover {
+  background: var(--bg-subtle);
+}
+
+.stationboard-list {
+  list-style: none;
+  overflow-y: auto;
+  padding: 0.5rem 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.departure-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.83rem;
+}
+
+.departure-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  background: var(--text-primary);
+  color: #ffffff;
+}
+
+.departure-dest {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.departure-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.departure-delay {
+  color: var(--swiss-red);
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+/* ==========================================================================
+   7. Adaptación Responsive para Móviles
+   ========================================================================== */
+@media (max-width: 640px) {
+  .floating-hud {
+    top: max(8px, env(safe-area-inset-top));
+    left: 8px;
+    right: 8px;
+    width: auto;
+  }
+
+  .hud-card {
+    padding: 0.7rem 0.8rem;
+    gap: 0.55rem;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
+  .floating-locate-btn {
+    right: 12px;
+    bottom: max(20px, calc(env(safe-area-inset-bottom) + 12px));
+    padding: 0.65rem 1.05rem;
+    font-size: 0.86rem;
+  }
+
+  .map-legend {
+    display: none;
+  }
+
+  .stationboard-drawer {
+    left: 8px;
+    right: 8px;
+    bottom: max(80px, calc(env(safe-area-inset-bottom) + 74px));
+    width: auto;
+    max-height: 38dvh;
+  }
+}
