@@ -6,6 +6,10 @@
   <title>ZüriPort — Transporte Público en Zúrich (SPA)</title>
   <meta name="description" content="Visualizador interactivo en tiempo real del transporte público en Zúrich y alrededores mediante Leaflet, OpenStreetMap y Swiss Public Transport API." />
 
+  <!-- Favicon y Logo de la App -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
   <!-- Leaflet CSS (CDN oficial gratuito) -->
   <link
     rel="stylesheet"
@@ -129,19 +133,13 @@
       min-width: 0;
     }
 
-    .brand-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: var(--swiss-red);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 1.25rem;
-      line-height: 1;
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
       flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
     }
 
     .brand h1 {
@@ -649,7 +647,7 @@
       <div class="hud-card">
         <div class="hud-top-row">
           <div class="brand">
-            <span class="brand-badge" aria-hidden="true">＋</span>
+            <img src="logo.png" onerror="this.src='logo.svg'" alt="Logo ZüriPort" class="brand-logo" width="38" height="38" />
             <div>
               <h1>ZüriPort</h1>
               <p class="subtitle">Transporte Público de Zúrich (SBB / ZVV)</p>

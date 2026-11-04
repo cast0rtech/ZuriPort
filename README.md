@@ -1,4 +1,6 @@
-# 🇨🇭 ZüriPort — Transporte Público de Zúrich en Tiempo Real
+# <img src="logo.png" alt="ZüriPort Logo" width="42" align="center" /> ZüriPort — Transporte Público de Zúrich en Tiempo Real
+
+🌐 **Demo en vivo (GitHub Pages):** [https://cast0rtech.github.io/ZuriPort/](https://cast0rtech.github.io/ZuriPort/)
 
 Aplicación web **Single Page Application (SPA)** 100 % estática para visualizar en tiempo real las estaciones y salidas de **Tren (SBB / S-Bahn), Tranvía (VBZ), Autobús (ZVV) y Barco/Funicular** en Zúrich y sus alrededores.
 
