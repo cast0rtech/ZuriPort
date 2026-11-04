@@ -29,11 +29,11 @@ Este repositorio ya incluye:
 3. En tu repositorio en `github.com`, ve a **Settings → Pages**.
 4. En **Build and deployment → Source**, elige **GitHub Actions** (o **Deploy from a branch** → rama `main` / carpeta `/ (root)`).
 5. En unos segundos tu web estará publicada en:
-   `https://<tu-usuario>.github.io/ZuriPort/`
+   `https://cast0rtech.github.io/ZuriPort/`
 
 ### Opción B — Desde la terminal con Git
 ```powershell
-git remote add origin https://github.com/<tu-usuario>/ZuriPort.git
+git remote add origin https://github.com/cast0rtech/ZuriPort.git
 git push -u origin main
 ```
 Luego activa **Settings → Pages** en GitHub seleccionando la rama `main` o **GitHub Actions**.
